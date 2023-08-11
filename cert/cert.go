@@ -55,6 +55,7 @@ type NebulaCertificate struct {
 
 type NebulaCertificateDetails struct {
 	Name      string
+	NetworkId string
 	Ips       []*net.IPNet
 	Subnets   []*net.IPNet
 	Groups    []string
@@ -120,6 +121,7 @@ func UnmarshalNebulaCertificate(b []byte) (*NebulaCertificate, error) {
 			IsCA:           rc.Details.IsCA,
 			InvertedGroups: make(map[string]struct{}),
 			Curve:          rc.Details.Curve,
+			NetworkId:      rc.Details.NetworkId,
 		},
 		Signature: make([]byte, len(rc.Signature)),
 	}
@@ -752,6 +754,7 @@ func (nc *NebulaCertificate) String() string {
 	s := "NebulaCertificate {\n"
 	s += "\tDetails {\n"
 	s += fmt.Sprintf("\t\tName: %v\n", nc.Details.Name)
+	s += fmt.Sprintf("\t\tNetwork: %v\n", nc.Details.NetworkId)
 
 	if len(nc.Details.Ips) > 0 {
 		s += "\t\tIps: [\n"
@@ -804,6 +807,7 @@ func (nc *NebulaCertificate) String() string {
 func (nc *NebulaCertificate) getRawDetails() *RawNebulaCertificateDetails {
 	rd := &RawNebulaCertificateDetails{
 		Name:      nc.Details.Name,
+		NetworkId: nc.Details.NetworkId,
 		Groups:    nc.Details.Groups,
 		NotBefore: nc.Details.NotBefore.Unix(),
 		NotAfter:  nc.Details.NotAfter.Unix(),
@@ -890,6 +894,7 @@ func (nc *NebulaCertificate) MarshalJSON() ([]byte, error) {
 	jc := m{
 		"details": m{
 			"name":      nc.Details.Name,
+			"networkId": nc.Details.NetworkId,
 			"ips":       toString(nc.Details.Ips),
 			"subnets":   toString(nc.Details.Subnets),
 			"groups":    nc.Details.Groups,
@@ -921,6 +926,7 @@ func (nc *NebulaCertificate) Copy() *NebulaCertificate {
 	c := &NebulaCertificate{
 		Details: NebulaCertificateDetails{
 			Name:           nc.Details.Name,
+			NetworkId:      nc.Details.NetworkId,
 			Groups:         make([]string, len(nc.Details.Groups)),
 			Ips:            make([]*net.IPNet, len(nc.Details.Ips)),
 			Subnets:        make([]*net.IPNet, len(nc.Details.Subnets)),

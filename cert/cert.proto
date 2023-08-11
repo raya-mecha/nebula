@@ -17,6 +17,7 @@ message RawNebulaCertificate {
 
 message RawNebulaCertificateDetails {
     string Name = 1;
+    string NetworkId = 10;
 
     // Ips and Subnets are in big endian 32 bit pairs, 1st the ip, 2nd the mask
     repeated uint32 Ips = 2;

@@ -22,6 +22,7 @@ type signFlags struct {
 	caKeyPath   *string
 	caCertPath  *string
 	name        *string
+	networkId   *string
 	ip          *string
 	duration    *time.Duration
 	inPubPath   *string
@@ -38,6 +39,7 @@ func newSignFlags() *signFlags {
 	sf.caKeyPath = sf.set.String("ca-key", "ca.key", "Optional: path to the signing CA key")
 	sf.caCertPath = sf.set.String("ca-crt", "ca.crt", "Optional: path to the signing CA cert")
 	sf.name = sf.set.String("name", "", "Required: name of the cert, usually a hostname")
+	sf.networkId = sf.set.String("networkId", "", "Required: networkId of the cert, usually a hostname")
 	sf.ip = sf.set.String("ip", "", "Required: ipv4 address and network in CIDR notation to assign the cert")
 	sf.duration = sf.set.Duration("duration", 0, "Optional: how long the cert should be valid for. The default is 1 second before the signing cert expires. Valid time units are seconds: \"s\", minutes: \"m\", hours: \"h\"")
 	sf.inPubPath = sf.set.String("in-pub", "", "Optional (if out-key not set): path to read a previously generated public key")
@@ -64,6 +66,9 @@ func signCert(args []string, out io.Writer, errOut io.Writer, pr PasswordReader)
 		return err
 	}
 	if err := mustFlagString("name", sf.name); err != nil {
+		return err
+	}
+	if err := mustFlagString("networkId", sf.networkId); err != nil {
 		return err
 	}
 	if err := mustFlagString("ip", sf.ip); err != nil {
@@ -193,10 +198,11 @@ func signCert(args []string, out io.Writer, errOut io.Writer, pr PasswordReader)
 	} else {
 		pub, rawPriv = newKeypair(curve)
 	}
-
+	fmt.Print(*sf.networkId)
 	nc := cert.NebulaCertificate{
 		Details: cert.NebulaCertificateDetails{
 			Name:      *sf.name,
+			NetworkId: *sf.networkId,
 			Ips:       []*net.IPNet{ipNet},
 			Groups:    groups,
 			Subnets:   subnets,
