@@ -3,13 +3,13 @@ module github.com/slackhq/nebula
 go 1.20
 
 require (
+	dario.cat/mergo v1.0.0
 	github.com/anmitsu/go-shlex v0.0.0-20200514113438-38f4b401e2be
 	github.com/armon/go-radix v1.0.0
 	github.com/cyberdelia/go-metrics-graphite v0.0.0-20161219230853-39f87cc3b432
 	github.com/flynn/noise v1.0.0
 	github.com/gogo/protobuf v1.3.2
 	github.com/google/gopacket v1.1.19
-	github.com/imdario/mergo v0.3.15
 	github.com/kardianos/service v1.2.2
 	github.com/miekg/dns v1.1.55
 	github.com/nbrownus/go-metrics-prometheus v0.0.0-20210712211119-974a6260965f
@@ -20,11 +20,11 @@ require (
 	github.com/songgao/water v0.0.0-20200317203138-2b4b6d7c09d8
 	github.com/stretchr/testify v1.8.4
 	github.com/vishvananda/netlink v1.1.0
-	golang.org/x/crypto v0.11.0
+	golang.org/x/crypto v0.12.0
 	golang.org/x/exp v0.0.0-20230425010034-47ecfdc1ba53
-	golang.org/x/net v0.12.0
-	golang.org/x/sys v0.10.0
-	golang.org/x/term v0.10.0
+	golang.org/x/net v0.14.0
+	golang.org/x/sys v0.11.0
+	golang.org/x/term v0.11.0
 	golang.zx2c4.com/wintun v0.0.0-20230126152724-0fa3db229ce2
 	golang.zx2c4.com/wireguard v0.0.0-20230325221338-052af4a8072b
 	golang.zx2c4.com/wireguard/windows v0.5.3
